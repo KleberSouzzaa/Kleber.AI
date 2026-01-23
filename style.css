@@ -1,0 +1,31 @@
+/* style.css */
+
+/* Fundo principal */
+.stApp {
+    background-color: #0E1117;
+    color: #FAFAFA;
+}
+
+/* Barra Lateral */
+[data-testid="stSidebar"] {
+    background-color: #262730;
+}
+
+/* Títulos Verde Neon */
+h1, h2, h3 {
+    color: #00FFAA !important;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* Caixa de texto (Input) */
+.stTextInput > div > div > input {
+    background-color: #262730;
+    color: white;
+    border: 1px solid #4B4B4B;
+}
+
+/* Remove fundo dos balões para ficar limpo */
+.stChatMessage {
+    background-color: transparent;
+}
+
