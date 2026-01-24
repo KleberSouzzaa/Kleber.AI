@@ -1,9 +1,3 @@
-# Título
-# Input do chat (campo de texto para o usuário enviar mensagens)
-    # Mostra a mensagem que o usuario enviou no chat
-    # Pegar a pergunta e enviar para uma IA responder
-    # Exibir a resposta da IA na tela
-
 # Biblioteca sugerida. Framework web em Python:
 # Streamlit -> apenas com Python ele pode criar o front-end e back-end juntos. Vai ser ela a ser utilizada neste projeto.
 # A IA sugerida: Gemini do Google (Generative AI)
@@ -13,7 +7,8 @@
 import streamlit as st
 import google.generativeai as genai
 import os
-import datetime # <--- Nova biblioteca para saber a hora!
+import datetime 
+import pytz  
 
 # --- 1. CONFIGURAÇÃO VISUAL ---
 st.set_page_config(page_title="Kleber.AI", page_icon="🤖")
@@ -35,11 +30,12 @@ def get_avatar(role):
 chave_secreta = st.secrets["GEMINI_KEY"]
 genai.configure(api_key=chave_secreta)
 
-# Pega a data e hora atual do seu PC
-agora = datetime.datetime.now()
+# Pega a data e hora atual do PC
+fuso_br = pytz.timezone('America/Sao_Paulo')
+agora = datetime.datetime.now(fuso_br)
 data_hora_texto = agora.strftime("%d/%m/%Y às %H:%M")
 
-# Criamos a "Personalidade" e damos o relógio para ele
+# Criação da "Personalidade" e o relógio 
 instrucoes_sistema = f"""
 Você é o Kleber.AI, um assistente corporativo inteligente e prestativo.
 INFORMAÇÃO DO SISTEMA: Hoje é dia {data_hora_texto}.
@@ -47,7 +43,6 @@ Se o usuário perguntar sobre o clima, avise honestamente que você não tem ace
 Não invente previsões do tempo.
 """
 
-# Iniciamos o modelo com essas instruções
 modelo = genai.GenerativeModel(
     'models/gemini-2.5-flash',
     system_instruction=instrucoes_sistema
@@ -57,16 +52,15 @@ modelo = genai.GenerativeModel(
 st.title("🤖 Kleber.AI")
 st.markdown("### Assistente Inteligente Corporativo")
 
-# Aqui a gente destaca a tecnologia (Robustez)
 st.markdown("**Tecnologia:** Google Gemini 2.5 Flash ⚡")
 
-# Aqui a gente mostra que o sistema está vivo (Funcionalidade)
 st.caption(f"🟢 Status: Online | 📅 Data do Sistema: {data_hora_texto}")
 
 st.divider()
 
 if "lista_mensagens" not in st.session_state:
     st.session_state["lista_mensagens"] = []
+    
 # --- 5. MOSTRA O HISTÓRICO ---
 for mensagem in st.session_state["lista_mensagens"]:
     role_visual = "user" if mensagem["role"] == "user" else "assistant"
