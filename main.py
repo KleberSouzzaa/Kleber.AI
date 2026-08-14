@@ -130,6 +130,8 @@ with st.sidebar:
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.image("robo.png", use_container_width=True)
+
+    st.markdown("<h2 style='text-align: center; padding-top: 10px;'>Kleber.AI</h2>", unsafe_allow_html=True)
     
     st.markdown("<h4 style='text-align: center; color: #a1a1aa;'>Assistente de Qualidade</h4>", unsafe_allow_html=True)
     st.write("") 
